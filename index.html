@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rampa Acessível - Mobilidade Redefinida</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .about-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #00d4ff;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(0, 212, 255, 0.05);
+            border-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .tech-specs {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .spec-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .spec-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00d4ff;
+            display: block;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 60%; left: 80%; animation-delay: 1s; }
+        .floating-element:nth-child(3) { top: 80%; left: 20%; animation-delay: 2s; }
+        .floating-element:nth-child(4) { top: 30%; left: 70%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">Rampa Acessível</div>
+            <ul class="nav-links">
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#funcionamento">Funcionamento</a></li>
+                <li><a href="#especificacoes">Especificações</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Mobilidade Redefinida</h1>
+            <p>A primeira rampa portátil que oferece independência total para cadeirantes em qualquer ambiente urbano</p>
+            <a href="#sobre" class="cta-button">Descobrir Mais</a>
+        </div>
+    </section>
+
+    <section id="sobre" class="section">
+        <div class="container">
+            <h2 class="section-title">Sobre o Projeto</h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3>Visão Revolucionária</h3>
+                    <p>O Rampa Acessível representa uma mudança de paradigma na mobilidade urbana. Desenvolvido com tecnologia de ponta, nosso produto elimina as barreiras físicas que limitam a independência de pessoas com mobilidade reduzida, oferecendo uma solução portátil, resistente e intuitiva.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Problema Identificado</h3>
+                    <p>Milhões de cadeirantes enfrentam diariamente obstáculos arquitetônicos em calçadas, estabelecimentos e espaços públicos. As rampas fixas de concreto são limitadas geograficamente e muitas vezes inadequadas, criando dependência de terceiros e restringindo a autonomia pessoal.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Nossa Solução</h3>
+                    <p>Uma rampa portátil de alta performance que combina materiais aeroespaciais com design ergonômico. Compacta o suficiente para ser transportada individualmente, mas robusta para suportar cargas elevadas, proporcionando acesso instantâneo a qualquer local.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="funcionamento" class="section">
+        <div class="container">
+            <h2 class="section-title">Funcionamento Inteligente</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">1</div>
+                    <h3>Desdobramento Rápido</h3>
+                    <p>Sistema de abertura telescópica em menos de 10 segundos. Mecanismo de travamento automático garante segurança total durante o uso.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">2</div>
+                    <h3>Ancoragem Inteligente</h3>
+                    <p>Base com ventosas de alta aderência e ganchos ajustáveis para fixação em diferentes tipos de superfície e alturas de meio-fio.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">3</div>
+                    <h3>Superfície Antiderrapante</h3>
+                    <p>Revestimento nanotecnológico que oferece tração superior em condições secas e molhadas, com drenagem integrada.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">4</div>
+                    <h3>Recolhimento Compacto</h3>
+                    <p>Dobra-se em formato ultra-compacto para fixação na própria cadeira de rodas ou transporte em mochila específica.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="especificacoes" class="section">
+        <div class="container">
+            <h2 class="section-title">Especificações Técnicas</h2>
+            <div class="tech-specs">
+                <h3>Engenharia de Precisão</h3>
+                <p>Desenvolvido com materiais de grau aeroespacial e testado em laboratórios certificados, o Rampa Acessível atende aos mais rigorosos padrões internacionais de segurança e durabilidade.</p>
+                
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-value">300kg</span>
+                        <span>Capacidade de Carga</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value">2.5kg</span>
+                        <span>Peso Total</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value">120cm</span>
+                        <span>Comprimento Máximo</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value">30cm</span>
+                        <span>Largura Útil</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value">20cm</span>
+                        <span>Altura Máxima</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value">40cm</span>
+                        <span>Tamanho Dobrado</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Tecnologia Avançada</h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3>Materiais Inovadores</h3>
+                    <p>Liga de alumínio aeronáutico 7075-T6 com tratamento anticorrosivo. Conectores em aço inoxidável 316L e superfície em polímero termoplástico reforçado com fibra de carbono para máxima resistência e durabilidade.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Design Ergonômico</h3>
+                    <p>Desenvolvido através de estudos biomecânicos extensivos, considerando diferentes tipos de cadeiras de rodas e padrões de movimento. Inclinação otimizada para mínimo esforço e máximo conforto durante a transposição.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Sustentabilidade</h3>
+                    <p>100% reciclável ao final da vida útil. Processo de fabricação carbon-neutral e embalagem biodegradável. Durabilidade projetada para mais de 10 anos de uso intensivo, reduzindo impacto ambiental.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contato" class="footer">
+        <div class="container">
+            <h2 class="section-title">Transformando Mobilidade</h2>
+            <p>O Rampa Acessível está em fase final de desenvolvimento. Entre em contato para mais informações sobre disponibilidade e parcerias.</p>
+            <p style="margin-top: 2rem; opacity: 0.7;">Projeto Rampa Acessível - Tecnologia para Inclusão</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(10, 10, 10, 0.98)';
+            } else {
+                header.style.background = 'rgba(10, 10, 10, 0.95)';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.about-card, .feature-item, .tech-specs').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
